@@ -1,4 +1,4 @@
 # frontend_verstka
 <h1 style="color:silver">BEST SITE</h1>
 <hr>
-<a href="https://frontendverstka.netlify.app/">SAYTGA O'TISH -> </a>
+<h1 style="background:#000;color:#882277;border-radius:5px"><a href="https://frontendverstka.netlify.app/">netlifydagi saytga utish...</a></h1>
