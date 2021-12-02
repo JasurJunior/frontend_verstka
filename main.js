@@ -1,25 +1,65 @@
 const API_KEY = 'dcea1fd7b3e65d34387ad6de7ef9cc5e'
 // let API_KEY = 'b971c2f0de8767f08d2bb84160ba24b7'
 const URLS = [
-  `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=`,
-
   `https://api.themoviedb.org/3/movie/top_rated?api_key=${API_KEY}&page=`,
+
+  `https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&page=`,
 
   `https://api.themoviedb.org/3/movie/upcoming?api_key=${API_KEY}&page=`,
 ]
-let rangePAGES = 2
-let NOWpages
+let rangePAGES = 2,
+  NOWpages,
+  _pages = 1
+
 const MAINdiv = document.querySelector('.append')
 
+//for pagination
+const PREVbtn = document.querySelector('.prev')
+const NEXTbtn = document.querySelector('.next')
+const POGINATIONnum = document.querySelector('.title')
+
+//for categories
+const BTNS = document.querySelectorAll('.btns')
+
+//events======
+BTNS.forEach((e, i) => {
+  e.onclick = () => {
+    START(i)
+  }
+})
+
+PREVbtn.onclick = () => {
+  if (_pages == 1) return
+  _pages--
+  START()
+}
+
+PREVbtn.onclick = () => {
+  if (_pages == 1) return
+  _pages--
+  POGINATIONnum.innerHTML = _pages
+  START()
+}
+
+NEXTbtn.onclick = () => {
+  _pages++
+  POGINATIONnum.innerHTML = _pages
+  START()
+}
+//==================== functions =======================
 START()
 
-async function START(_url = 0, _pages = 1) {
-  if (!(_pages <= rangePAGES)) return alert('range ERROR!')
+async function START(_url = 0) {
+  try {
+    if (!(_pages <= rangePAGES)) return alert('range ERROR!')
 
-  let data = await fetch(URLS[_url] + _pages)
-  data = await data.json()
-  rangePAGES = data?.total_pages
-  renderFUN(data?.results)
+    let data = await fetch(URLS[_url] + _pages)
+    data = await data.json()
+    rangePAGES = data?.total_pages
+    renderFUN(data?.results)
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 function renderFUN(_data) {
@@ -63,14 +103,3 @@ function createFUN(_name, _reyting, _date, _imgURL) {
 function abs(htmlEL) {
   return document.createElement(htmlEL)
 }
-/*
-          <!-- <div class="movie">
-                <img src="https://image.tmdb.org/t/p/w500/qRyy2UmjC5ur9bDi3kpNNRCc5nc.jpg" alt="Fast &amp; Furious Presents: Hobbs &amp; Shaw">
-   
-               <div class="movie-info">
-                   <h3>Fast &amp; Furious Presents: Hobbs &amp; Shaw</h3>
-                   <span class="orange">6.9</span>
-                </div>
-                <span class="date">2021-09-21</span>
-            </div> -->
-*/
